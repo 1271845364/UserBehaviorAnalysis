@@ -22,6 +22,7 @@ import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
 import org.apache.flink.util.Collector;
 
+import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -44,7 +45,8 @@ public class HotItems {
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 
         // 读取数据
-        DataStream<String> inputStream = env.readTextFile("D:\\study\\idea-workspace\\atguigu\\bigdata\\UserBehaviorAnalysis\\HotItemsAnalysis\\src\\main\\resources\\UserBehavior.csv");
+        URL resource = HotItems.class.getResource("/UserBehavior.csv");
+        DataStream<String> inputStream = env.readTextFile(resource.getPath());
 
 //        Properties properties = new Properties();
 //        properties.setProperty("bootstrap.servers", "localhost:9092");

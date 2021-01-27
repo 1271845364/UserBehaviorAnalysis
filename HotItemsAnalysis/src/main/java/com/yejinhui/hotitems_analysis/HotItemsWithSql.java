@@ -12,6 +12,8 @@ import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.java.StreamTableEnvironment;
 import org.apache.flink.types.Row;
 
+import java.net.URL;
+
 /**
  * @Date 2021/1/18 10:32
  * @Created by huijinye@126.com
@@ -28,7 +30,8 @@ public class HotItemsWithSql {
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 
         // 3.读取数据
-        DataStream<String> inputStream = env.readTextFile("D:\\study\\idea-workspace\\atguigu\\bigdata\\UserBehaviorAnalysis\\HotItemsAnalysis\\src\\main\\resources\\UserBehavior.csv");
+        URL resource = HotItems.class.getResource("/UserBehavior.csv");
+        DataStream<String> inputStream = env.readTextFile(resource.getPath());
 
         // 4.转换为UserBehavior，分配时间戳和watermark
         DataStream<UserBehavior> dataStream = inputStream.map(new MapFunction<String, UserBehavior>() {
